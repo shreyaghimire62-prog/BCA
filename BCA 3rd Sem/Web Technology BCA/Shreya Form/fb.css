@@ -1,0 +1,54 @@
+body {
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.logo {
+    color: #1877f2;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.login-box {
+    width: 360px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-box a {
+    display: block;
+    margin: 10px 0;
+    color: #1877f2;
+    text-decoration: none;
+}
+
+.create {
+    background-color: #42b72a;
+}

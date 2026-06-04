@@ -1,0 +1,102 @@
+<?php
+// Database configuration
+$host = 'localhost';
+$dbname = 'user_db';
+$username_db = 'root';
+$password_db = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username_db, $password_db);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $chase_id = $_POST['chase_id'] ?? '';
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $confirm_email = $_POST['confirm_email'] ?? '';
+
+    $errors = [];
+
+    // Validate inputs
+    if ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+    if ($email !== $confirm_email) {
+        $errors[] = "Emails do not match.";
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+
+    if (empty($errors)) {
+        // Prepare update query (only update changed fields)
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET username = :username, password = :password, email = :email WHERE chase_id = :chase_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username,
+            ':password' => $hashed_password,
+            ':email' => $email,
+            ':chase_id' => $chase_id
+        ]);
+
+        if ($stmt->rowCount() > 0) {
+            echo "<p style='color:green;'>User data updated successfully for Chase ID: $chase_id</p>";
+        } else {
+            echo "<p style='color:orange;'>No changes made or Chase ID not found.</p>";
+        }
+    } else {
+        foreach ($errors as $error) {
+            echo "<p style='color:red;'>$error</p>";
+        }
+    }
+}
+
+// Read existing data for display (using Chase ID = '4V' as per example)
+$chase_id_to_display = '4V';
+$stmt = $pdo->prepare("SELECT username, email FROM users WHERE chase_id = :chase_id");
+$stmt->execute([':chase_id' => $chase_id_to_display]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    // Dummy data if Chase ID not found (for demo)
+    $user = ['username' => '', 'email' => ''];
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Form</title>
+</head>
+<body>
+    <h2>Update form</h2>
+    <form method="post">
+        Chase ID: <strong>4V</strong><br>
+        <input type="hidden" name="chase_id" value="4V">
+
+        Username:<br>
+        <input type="text" name="username" value="<?php echo htmlspecialchars($user['username']); ?>"><br>
+
+        Password:<br>
+        <input type="password" name="password"><br>
+
+        Confirm password:<br>
+        <input type="password" name="confirm_password"><br>
+
+        Email:<br>
+        <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>"><br>
+
+        Confirmation email:<br>
+        <input type="email" name="confirm_email"><br><br>
+
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>

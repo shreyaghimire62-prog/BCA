@@ -1,0 +1,28 @@
+body {
+    font-family: Arial;
+}
+
+h2 {
+    text-align: center;
+    color: #aa22bb;
+}
+
+table {
+    width: 70%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 2px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+img {
+    width: 80px;
+    height: 80px;
+}

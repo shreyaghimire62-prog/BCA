@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Effects</title>
+    <style>
+        /* a. Link colors */
+        a:link {
+            color: blue;      /* before visited */
+        }
+        a:visited {
+            color: red;       /* after visited */
+        }
+
+        /* b. Table row colors */
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        tr:nth-child(odd) {
+            background-color: pink;
+        }
+        tr:nth-child(even) {
+            background-color: lightblue;
+        }
+
+        /* c. Text effects */
+        p {
+            color: green;
+            text-indent: 2cm;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Link Example</h2>
+    <a href="https://example.com">Visit this link</a>
+
+    <h2>Table Example</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td>Shreya</td>
+            <td>19</td>
+        </tr>
+        <tr>
+            <td>Seajal</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>Shreyansh</td>
+            <td>14</td>
+        </tr>
+    </table>
+
+    <h2>Text Example</h2>
+    <p>
+        This is a sample text showing css effects.
+    </p>
+
+</body>
+</html>
